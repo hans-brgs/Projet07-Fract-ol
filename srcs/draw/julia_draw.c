@@ -12,49 +12,36 @@
 
 #include "fractol.h"
 
-void julia_init(t_fract *fractol)
-{
-	fractol->it_max = 50;
-	fractol->c.Re = -0.7;
-	fractol->c.Im = 0.27015;
-}
-
-static void map(t_win *win, t_img *img, t_fract *fractol)
+static void map(t_win *win)
 {
 	int l;
 
-	l = (img->w < img->h) ? img->w : img->h;
-	// fractol->Z1.Re = (2 * (win->zoom) * (img->x - img->w / 2.0) / l) + win->moveX;
-	// fractol->Z1.Im = (2 * win->zoom * (img->y - img->h / 2.0) / l) + win->moveY;
-	fractol->Z1.Re = 1.5 * (img->x - img->w / 2.0) / (0.5 * win->zoom * img->w) + win->moveX;
-	fractol->Z1.Im = (img->y - img->h / 2.0) / (0.5 * win->zoom * img->h) + win->moveY;
+	l = (win->img->w < win->img->h) ? win->img->w : win->img->h;
+	win->julia->Z1.Re = (2 * (win->zoom) * (win->img->x - win->img->w / 2.0) / l) + win->moveX;
+	win->julia->Z1.Im = (2 * win->zoom * (win->img->y - win->img->h / 2.0) / l) + win->moveY;
+	// win->julia->Z1.Re = 1.5 * (win->img->x - win->img->w / 2.0) / (0.5 * win->zoom * win->img->w) + win->moveX;
+	// win->julia->Z1.Im = (win->img->y - win->img->h / 2.0) / (0.5 * win->zoom * win->img->h) + win->moveY;
 }
 
-t_img *julia_draw(t_win *win)
+void julia_draw(t_win *win)
 {
-	t_img *img;
-	t_fract *julia;
 	int i;
 	int color;
 
-	if (!(img = (t_img *)malloc(sizeof(t_img))))
-	  return (NULL);
-	img_init (win, img, HEIGHT, WIDTH);
-	if (!(julia = (t_fract *)malloc(sizeof(t_fract))))
-		return (NULL);
-	julia_init (julia);
-	while (img->x < img->w)
+	img_init(win, win->img, HEIGHT, WIDTH);
+	// julia_init(win->julia);
+	while (win->img->x < win->img->w)
 	{
-		img->y = 0;
-		while (img->y < img->h)
+		win->img->y = 0;
+		while (win->img->y < win->img->h)
 		{
-			map(win, img, julia);
-			i = julia_computation(julia);
-			color = color_fractol(win, julia, i);
-			my_mlx_pixel_put(img, img->x, img->y, color);
-			img->y++;
+			map(win);
+			i = julia_computation(win);
+			color = color_fractol(win, i);
+			my_mlx_pixel_put(win->img, win->img->x, win->img->y, color);
+			win->img->y++;
 		}
-		img->x++;
+		win->img->x++;
 	}
-	return (img);
+	return;
 }

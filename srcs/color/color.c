@@ -19,16 +19,16 @@ int rgb_to_int(double r, double g, double b)
 	return (color);
 }
 
-int color_fractol(t_win *win, t_fract *fractol, int i)
+int color_fractol(t_win *win, int i)
 {
 	int r;
 	int g;
 	int b;
 	int color;
 
-	r = (i * 10) % (fractol->it_max) / (float)(fractol->it_max - 1) * 255;
-	g = i % (fractol->it_max) / (float)(fractol->it_max - 1) * 255 * 0.3;
-	b = (int)(i*8) % (fractol->it_max) / (float)(fractol->it_max - 1) * 255 * 0.5;
-	color = rgb_to_int(r, g, b);
+	r = (i*9) % (win->julia->it_max) / (float)(win->julia->it_max - 1) * 255;
+	g = (int)(i) % (win->julia->it_max) / (float)(win->julia->it_max - 1)*255;
+	b = (int)(i) % (win->julia->it_max) / (float)(win->julia->it_max - 1) *255;
+	color = rgb_to_int(r, 0, 0);
 	return (color);
 }

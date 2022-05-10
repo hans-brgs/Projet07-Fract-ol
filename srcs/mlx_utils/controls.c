@@ -14,12 +14,16 @@
 
 void zoom_in(t_win *win)
 {
-	win->zoom = win->zoom / 0.9;
+	win->x += win->w / 12;
+	win->y += win->h / 12;
+	win->zoom = win->zoom * 1.2;
+	win->x = win->x * 1.2;
+	win->y = win->y * 1.2;
 }
 
 void zoom_out(t_win *win)
 {
-	win->zoom = win->zoom * 0.9;
+	win->zoom = win->zoom * 0.1;
 }
 
 void moove(t_win *win, size_t dir)
