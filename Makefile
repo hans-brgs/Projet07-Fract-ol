@@ -6,11 +6,12 @@
 #    By: hbourgeo <hbourgeo@student.19.be>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/15 07:55:41 by hbourgeo          #+#    #+#              #
-#    Updated: 2022/04/29 12:28:04 by hbourgeo         ###   ########.fr        #
+#    Updated: 2022/05/09 11:38:53 by hbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
+OS		= $(shell uname)
 
 # Get DIR
 INC_DIR =	includes/
@@ -20,16 +21,22 @@ OBJ_DIR = obj_$(basename $(NAME))/
 # LIBFT
 LIBFT_INC_DIR = libft/includes/
 
-# MLX mac OS
-MLX_INC_DIR = /usr/local/include
-MLX_DIR = /usr/local/lib/
+# MLX mac OS / LINUX
+ifeq ($(OS), Linux)
+	MLX_INC_DIR = ./minilibx-linux/
+	MLX_DIR = ./minilibx-linux/
+	LNK = -L $(MLX_DIR) -lmlx -lXext -lX11 -lm
+else
+	MLX_INC_DIR = /usr/local/include
+	MLX_DIR = /usr/local/lib/
+	LNK = -L $(MLX_DIR) -lmlx -framework OpenGL -framework AppKit -lm
+endif
 
 # Edit FLAGS
 CC = gcc 
-CFLAGS = -Wall -Werror -Wextra
-CFLAGS += -I$(LIBFT_INC_DIR)
+#CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -I$(LIBFT_INC_DIR)
 CFLAGS += -I$(INC_DIR) -I$(MLX_INC_DIR)
-LNK = -L $(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
 DEPS = $(shell find $(INC_DIR) -type f -name "*.h")
 LIBFT = libft/libft.a
 
@@ -51,7 +58,7 @@ $(OBJ_DIR) :
 	@mkdir -p $(OBJ_DIR)
 
 $(NAME) : $(OBJ_DIR) $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(OBJS) $(LNK) $(LIBFT) -o $@
+	$(CC) $(CFLAGS) $(OBJS) $(LNK) $(LIBFT) -o $@
 
 clean :
 	@rm -rf $(OBJS)
