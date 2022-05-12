@@ -30,6 +30,15 @@ t_complex sqr_cpx(t_complex z)
 	return (new);
 }
 
+t_complex sqr_cpx_abs(t_complex z)
+{
+	t_complex	new;
+
+	new.Re = sqr(z.Re) - sqr(z.Im);
+	new.Im = 2 * fabs(z.Re * z.Im);
+	return (new);
+}
+
 t_complex add_cpx(t_complex z, t_complex c)
 {
 	t_complex	new;
@@ -39,19 +48,3 @@ t_complex add_cpx(t_complex z, t_complex c)
 	return (new);
 }
 
-
-double euclidean_dist(int x1, int x2, int y1, int y2)
-{
-	double dist;
-
-	dist = sqrt(sqr(x2-x1) + sqr(y2-y1));
-	return (dist);
-}
-
-double slope(int x1, int x2, int y1, int y2)
-{
-	double slope;
-	ft_printf("(%d - %d) / (%d - %d)", y2, y1, x2, x1);
-	slope = ((double) y2 - (double) y1) / ((double) x2 - (double) x1);
-	return (slope);
-}

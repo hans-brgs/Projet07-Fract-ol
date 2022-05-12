@@ -12,25 +12,30 @@
 
 #include "fractol.h"
 
-static void user_interface_txt(t_win win)
+static void	user_interface_txt(t_win win)
 {
-	int c;
+	int	c;
+
 	c = rgb_to_int(225, 225, 225);
-	mlx_string_put(win.mlx, win.mlx_win, 20 , 25, c, "Controls Keys");
-	mlx_string_put(win.mlx, win.mlx_win, 17, 53, c, "Move = ^ v < >");
-	mlx_string_put(win.mlx, win.mlx_win, 17, 73, c, "Zoom = scroll");
-	mlx_string_put(win.mlx, win.mlx_win, 17, 93, c, "Iter = + | -");
-	mlx_string_put(win.mlx, win.mlx_win, 17, 113, c, "Reset = del");
-	mlx_string_put(win.mlx, win.mlx_win, 17, HEIGHT - 65, c, "Fract explorer");
-	mlx_string_put(win.mlx, win.mlx_win, 17 , HEIGHT - 38, c, "Julia = 1");
-	mlx_string_put(win.mlx, win.mlx_win, 17, HEIGHT - 18, c, "Mandelbrot = 2");
+	mlx_string_put(win.mlx, win.ptr, 20, 25, c, "Controls Keys");
+	mlx_string_put(win.mlx, win.ptr, 17, 53, c, "Move = ^ v < >");
+	mlx_string_put(win.mlx, win.ptr, 17, 73, c, "Zoom = scroll");
+	mlx_string_put(win.mlx, win.ptr, 17, 93, c, "Iter = + | -");
+	mlx_string_put(win.mlx, win.ptr, 17, 113, c, "Reset = del");
+	mlx_string_put(win.mlx, win.ptr, 17, H - 85, c, "Fract explorer");
+	mlx_string_put(win.mlx, win.ptr, 17, H - 58, c, "Julia = 1");
+	mlx_string_put(win.mlx, win.ptr, 17, H - 38, c, "Mandelbrot = 2");
+	mlx_string_put(win.mlx, win.ptr, 17, H - 18, c, "BurningShip = 3");
+	mlx_string_put(win.mlx, win.ptr, W - 127, H - 65, c, "Fract transformer");
+	mlx_string_put(win.mlx, win.ptr, W - 127, H - 38, c, "Color = c");
+	mlx_string_put(win.mlx, win.ptr, W - 127, H - 18, c, "Mutate Julia = j");
 	return;
 }
 
 void	fill_image (t_img *img)
 {
-	int color1;
-	int color2;
+	int	color1;
+	int	color2;
 
 	color1 = rgb_to_int(25, 25, 25);
 	color2 = rgb_to_int(135, 135, 135);
@@ -56,22 +61,17 @@ void	fill_image (t_img *img)
 	return;
 }
 
-int draw_user_interface (t_win *win)
+int	draw_user_interface (t_win *win)
 {
-	t_img *ui1;
-  	t_img *ui2;
-
-	if (!(ui1 = (t_img *)malloc(sizeof(t_img)))) // to be freed.
-	  return (-1);
-  	if (!(ui2 = (t_img *)malloc(sizeof(t_img)))) // to be freed.
-	  return (-1);
-	img_init(win, ui1, 115, 95);
-	img_init(win, ui2, 70, 95);
-	fill_image(ui1);
-	fill_image(ui2);
-	mlx_put_image_to_window(win->mlx, win->mlx_win, ui1->mlx_img, 10, 10);
-	mlx_put_image_to_window(win->mlx, win->mlx_win, ui2->mlx_img, 10, HEIGHT - 80);
+	img_init(win, win->ui1, 115, 95);
+	img_init(win, win->ui2, 95, 105);
+	img_init(win, win->ui3, 75, 115);
+	fill_image(win->ui1);
+	fill_image(win->ui2);
+	fill_image(win->ui3);
+	mlx_put_image_to_window(win->mlx, win->ptr, win->ui1->mlx_img, 10, 10);
+	mlx_put_image_to_window(win->mlx, win->ptr, win->ui2->mlx_img, 10, H - 100);
+	mlx_put_image_to_window(win->mlx, win->ptr, win->ui3->mlx_img, W - 135, H - 80);
 	user_interface_txt(*win);
 	return (0);
 }
-

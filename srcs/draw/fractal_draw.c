@@ -12,36 +12,56 @@
 
 #include "fractol.h"
 
-static void map(t_win *win)
+static int	fractal_selection(t_win *win, t_complex cplx, int i)
 {
-	int l;
-
-	l = (win->img->w < win->img->h) ? win->img->w : win->img->h;
-	win->julia->Z1.Re = (2 * (win->zoom) * (win->img->x - win->img->w / 2.0) / l) + win->moveX;
-	win->julia->Z1.Im = (2 * win->zoom * (win->img->y - win->img->h / 2.0) / l) + win->moveY;
-	// win->julia->Z1.Re = 1.5 * (win->img->x - win->img->w / 2.0) / (0.5 * win->zoom * win->img->w) + win->moveX;
-	// win->julia->Z1.Im = (win->img->y - win->img->h / 2.0) / (0.5 * win->zoom * win->img->h) + win->moveY;
+	if (win->select == 1)
+		i = julia_computation(win, cplx);
+	else if (win->select == 2)
+	{
+		i = julia_computation(win, cplx);
+		set_julia(win, 0.285, 0.01);
+	}	
+	else if (win->select == 3)
+		i = mandelbrot_computation(win, cplx);
+	else if (win->select == 4)
+		i = burningship_computation(win, cplx);
+	return (i);
 }
 
-void julia_draw(t_win *win)
+static t_complex	map(t_win *win)
 {
-	int i;
-	int color;
+	int			l;
+	t_complex	cplx;
 
-	img_init(win, win->img, HEIGHT, WIDTH);
-	// julia_init(win->julia);
+	if (win->img->w < win->img->h)
+		l = win->img->w;
+	else
+		l = win->img->h;
+	cplx.Re = (3 * (win->zoom) * (win->img->x
+				- win->img->w / 2.0) / l) + win->moveX;
+	cplx.Im = (3 * win->zoom * (win->img->y
+				- win->img->h / 2.0) / l) + win->moveY;
+	return (cplx);
+}
+
+void	draw_fractal(t_win *win)
+{
+	int			i;
+	int			color;
+	t_complex	cplx;
+
 	while (win->img->x < win->img->w)
 	{
 		win->img->y = 0;
 		while (win->img->y < win->img->h)
 		{
-			map(win);
-			i = julia_computation(win);
-			color = color_fractol(win, i);
+			cplx = map(win);
+			i = fractal_selection(win, cplx, i);
+			color = color_fractal(win, i);
 			my_mlx_pixel_put(win->img, win->img->x, win->img->y, color);
 			win->img->y++;
 		}
 		win->img->x++;
 	}
-	return;
+	mlx_put_image_to_window(win->mlx, win->ptr, win->img->mlx_img, 0, 0);
 }

@@ -12,25 +12,23 @@
 
 #include "fractol.h"
 
-void exec_ctrl(t_win *win)
-{
-	// mlx_clear_window (win->mlx, win->mlx_win);
-	julia_draw (win);
-	mlx_put_image_to_window(win->mlx, win->mlx_win, win->img->mlx_img, 0, 0);
-  	draw_user_interface (win);
-	return;
-}
-
-
 int key_hook(int keycode, t_win *win)
 {
-	(keycode == UP) ? win->moveY += 0.02*win->zoom : 0;
-	(keycode == DOWN) ? win->moveY -= 0.02*win->zoom : 0;
-	(keycode == LEFT) ? win->moveX -= 0.02*win->zoom : 0;
-	(keycode == RIGHT) ? win->moveX += 0.02*win->zoom : 0;
-	(keycode == PLUS) ? win->It_incr += 10 : 0;
-	(keycode == MINUS) ? win->It_incr -= 10 : 0;
-	exec_ctrl(win);
+	(keycode == UP) ? win->moveY -= 0.01*win->zoom : 0;
+	(keycode == DOWN) ? win->moveY += 0.01*win->zoom : 0;
+	(keycode == LEFT) ? win->moveX -= 0.01*win->zoom : 0;
+	(keycode == RIGHT) ? win->moveX += 0.01*win->zoom : 0;
+	(keycode == PLUS) ? win->It_incr += 6 : 0;
+	(keycode == MINUS) ? win->It_incr -= 6 : 0;
+	(keycode == NUMPAD_1) ? win->select = 1 : 0;
+	(keycode == NUMPAD_2) ? win->select = 3 : 0;
+	(keycode == NUMPAD_3) ? win->select = 4 : 0;
+	(keycode == COLOR) ? win->color += 1 : 0;
+	(keycode == CLEAR) ? reset_fractal(win) : 0;
+	(keycode == ESCAPE) ? close_and_free(win) : 0;
+	if (win->select == 1)
+		(keycode == MUTATE) ? julia_transform(win) : 0;
+	render(win);
 	return(0);
 }
 
@@ -38,6 +36,12 @@ int	mouse_click(int button, int x, int y, t_win *win)
 {
 	(button == 4) ? win->zoom /= 0.9 : 0;
 	(button == 5) ? win->zoom *= 0.9 : 0;
-	exec_ctrl(win);
+	render(win);
 	return (0);
+}
+
+int close_and_free(t_win *win)
+{
+	free_str(win);
+	exit(0);
 }

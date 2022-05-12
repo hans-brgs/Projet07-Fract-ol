@@ -6,7 +6,7 @@
 /*   By: hbourgeo <hbourgeo@student.19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 11:31:17 by hbourgeo          #+#    #+#             */
-/*   Updated: 2022/05/10 14:21:42 by hbourgeo         ###   ########.fr       */
+/*   Updated: 2022/05/12 22:54:50 by hbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,27 @@
 # include <math.h>
 # include "mlx.h"
 # include "libft.h"
-# define WIDTH 900
-# define HEIGHT 500
+# define W 800
+# define H 600
+
+typedef struct s_color
+{
+	int R;
+	int G;
+	int B;
+}	t_color;
 
 typedef struct s_complex
 {
 	double Re;
 	double Im;
 }	t_complex;
+
+typedef struct s_coord
+{
+	double x;
+	double y;
+} t_coord;
 
 typedef struct s_fract
 {
@@ -35,6 +48,16 @@ typedef struct s_fract
 	t_complex	Z1;
 	t_complex	c;
 }	t_fract;
+
+typedef struct s_koch
+{
+	t_coord	a;
+	t_coord	b;
+	t_coord	c;
+	t_coord	d;
+	t_coord	e;
+}	t_koch;
+
 
 typedef struct s_img
 {
@@ -52,7 +75,7 @@ typedef struct s_img
 typedef struct s_win
 {
 	void		*mlx;
-	void		*mlx_win;
+	void		*ptr;
 	int			h;
 	int			w;
 	int			x;
@@ -61,11 +84,16 @@ typedef struct s_win
 	int			It_incr;
 	float		moveX;
 	float		moveY;
-	t_fract		*julia;
-	t_fract		*mandelbr;
+	int			select;
+	int			mutate_julia;
+	int			color;
+	double		julia_cRe;
+	double		julia_cIm;
+	t_fract		*curr_fract;
 	t_img		*img;
 	t_img		*ui1;
 	t_img		*ui2;
+	t_img		*ui3;
 }	t_win;
 
 
@@ -75,20 +103,25 @@ typedef struct s_win
 double 		sqr(double num);
 t_complex 	sqr_cpx(t_complex z);
 t_complex	add_cpx(t_complex z, t_complex c);
-int 		julia_computation(t_win *win);
+int 		julia_computation(t_win *win, t_complex cplx);
+int 		mandelbrot_computation(t_win *win, t_complex cplx);
+t_complex sqr_cpx_abs(t_complex z);
+int burningship_computation(t_win *win, t_complex cplx);
 
 // draw
-void julia_init(t_fract *fractol);
-void julia_draw(t_win *win);
+void draw_fractal(t_win *win);
+void mandelbrot_draw(t_win *win);
 int draw_user_interface (t_win *win);
 
 // color
-int color_fractol(t_win *win, int i);
+int color_fractal(t_win *win, int i);
 int rgb_to_int(double r, double g, double b);
 
 //init
-void win_init(t_win *win);
 void	img_init(t_win *win, t_img *img, int h, int w);
+void 	win_init(t_win *win);
+void 	julia_init(t_win *win);
+void 	mandelbrot_init(t_win *win);
 
 //utils
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
@@ -96,10 +129,15 @@ int		mouse_click(int button, int x, int y, t_win *win);
 int		key_hook(int keycode, t_win *win);
 void 	zoom_in(t_win *win);
 void 	moove_left(t_win *win);
-void	exec_ctrl(t_win *win);
+void	render(t_win *win);
+void 	reset_fractal(t_win *win);
+int 	close_and_free(t_win *win);
+void julia_transform(t_win *win);
+void set_julia(t_win *win, double cRe, double cIm);
 
 //error
 void exit_error(t_win *win, char *str);
+void free_str(t_win *win);
 
 #ifndef LINUX
 # define UP 65362
@@ -108,6 +146,13 @@ void exit_error(t_win *win, char *str);
 # define RIGHT 65363
 # define PLUS 65451
 # define MINUS 65453
+# define NUMPAD_1 65436
+# define NUMPAD_2 65433
+# define NUMPAD_3 65435
+# define CLEAR 65535
+# define ESCAPE 65307
+# define MUTATE 106
+# define COLOR 99
 #else
 # define UP 126
 # define DOWN 125
@@ -115,6 +160,13 @@ void exit_error(t_win *win, char *str);
 # define RIGHT 124
 # define PLUS 24
 # define MINUS 27
+# define NUMPAD_1 83
+# define NUMPAD_2 84
+# define NUMPAD_3 85
+# define CLEAR 71
+# define ESCAPE 53
+# define MUTATE 106
+# define COLOR 38
 #endif
 
 #endif

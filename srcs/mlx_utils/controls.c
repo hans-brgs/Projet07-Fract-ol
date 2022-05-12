@@ -12,29 +12,38 @@
 
 #include "fractol.h"
 
-void zoom_in(t_win *win)
+void set_julia(t_win *win, double cRe, double cIm)
 {
-	win->x += win->w / 12;
-	win->y += win->h / 12;
-	win->zoom = win->zoom * 1.2;
-	win->x = win->x * 1.2;
-	win->y = win->y * 1.2;
+	win->julia_cRe = cRe;
+	win->julia_cIm = cIm;
 }
 
-void zoom_out(t_win *win)
+void reset_fractal(t_win *win)
 {
-	win->zoom = win->zoom * 0.1;
+	win->zoom = 1;
+	win->moveX = 0;
+	win->moveY = 0;
+	win->It_incr = 0;
+	win->mutate_julia = 1;
+	set_julia(win, -0.7, 0.27015);
 }
 
-void moove(t_win *win, size_t dir)
+void julia_transform(t_win *win)
 {
-	(dir == 1) ? win->moveY += 0.01 : 0;
-	(dir == 2) ? win->moveY -= 0.01 : 0;
-	(dir == 3) ? win->moveX -= 0.01 : 0;
-	(dir == 4) ? win->moveX += 0.01 : 0;
+	win->mutate_julia += 1;
+	if (win->mutate_julia < 7)
+	{
+		(win->mutate_julia == 1) ? set_julia(win, -0.7, 0.27015) : 0;
+		(win->mutate_julia == 2) ? set_julia(win, -0.4, 0.6) : 0;
+		(win->mutate_julia == 3) ? set_julia(win, 0.285, 0.01) : 0;
+		(win->mutate_julia == 4) ? set_julia(win, 0, -0.8) : 0;
+		(win->mutate_julia == 5) ? set_julia(win, 1- (1 + sqrt(5)) / 2, 0) : 0;
+		(win->mutate_julia == 6) ? set_julia(win, -333 / 235, 47 / 4722 ) : 0;
+	}
+	else
+	{
+		win->mutate_julia = 1;
+		set_julia(win, -0.7, 0.27015);
+	}
 }
 
-void moove_rigth(t_win *win)
-{
-	win->moveX += 0.01;
-}
