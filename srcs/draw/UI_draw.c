@@ -29,10 +29,10 @@ static void	user_interface_txt(t_win win)
 	mlx_string_put(win.mlx, win.ptr, W - 127, H - 65, c, "Fract transformer");
 	mlx_string_put(win.mlx, win.ptr, W - 127, H - 38, c, "Color = c");
 	mlx_string_put(win.mlx, win.ptr, W - 127, H - 18, c, "Mutate Julia = j");
-	return;
+	return ;
 }
 
-void	fill_image (t_img *img)
+void	fill_image(t_img *img)
 {
 	int	color1;
 	int	color2;
@@ -58,10 +58,10 @@ void	fill_image (t_img *img)
 		}
 		img->x++;
 	}
-	return;
+	return ;
 }
 
-int	draw_user_interface (t_win *win)
+int	draw_user_interface(t_win *win)
 {
 	img_init(win, win->ui1, 115, 95);
 	img_init(win, win->ui2, 95, 105);
@@ -71,7 +71,8 @@ int	draw_user_interface (t_win *win)
 	fill_image(win->ui3);
 	mlx_put_image_to_window(win->mlx, win->ptr, win->ui1->mlx_img, 10, 10);
 	mlx_put_image_to_window(win->mlx, win->ptr, win->ui2->mlx_img, 10, H - 100);
-	mlx_put_image_to_window(win->mlx, win->ptr, win->ui3->mlx_img, W - 135, H - 80);
+	mlx_put_image_to_window(win->mlx, win->ptr, win->ui3->mlx_img,
+		W - 135, H - 80);
 	user_interface_txt(*win);
 	return (0);
 }

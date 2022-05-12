@@ -37,10 +37,10 @@ static t_complex	map(t_win *win)
 		l = win->img->w;
 	else
 		l = win->img->h;
-	cplx.Re = (3 * (win->zoom) * (win->img->x
-				- win->img->w / 2.0) / l) + win->moveX;
-	cplx.Im = (3 * win->zoom * (win->img->y
-				- win->img->h / 2.0) / l) + win->moveY;
+	cplx.re = (3 * (win->zoom) * (win->img->x
+				- win->img->w / 2.0) / l) + win->move_x;
+	cplx.im = (3 * win->zoom * (win->img->y
+				- win->img->h / 2.0) / l) + win->move_y;
 	return (cplx);
 }
 

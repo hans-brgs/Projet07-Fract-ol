@@ -13,7 +13,7 @@
 #include "fractol.h"
 #include <math.h>
 
-double sqr(double num)
+double	sqr(double num)
 {
 	double	sqr;
 
@@ -21,30 +21,29 @@ double sqr(double num)
 	return (sqr);
 }
 
-t_complex sqr_cpx(t_complex z)
+t_complex	sqr_cpx(t_complex z)
 {
 	t_complex	new;
 
-	new.Re = sqr(z.Re) - sqr(z.Im);
-	new.Im = 2 * z.Re * z.Im;
+	new.re = sqr(z.re) - sqr(z.im);
+	new.im = 2 * z.re * z.im;
 	return (new);
 }
 
-t_complex sqr_cpx_abs(t_complex z)
+t_complex	sqr_cpx_abs(t_complex z)
 {
 	t_complex	new;
 
-	new.Re = sqr(z.Re) - sqr(z.Im);
-	new.Im = 2 * fabs(z.Re * z.Im);
+	new.re = sqr(z.re) - sqr(z.im);
+	new.im = 2 * fabs(z.re * z.im);
 	return (new);
 }
 
-t_complex add_cpx(t_complex z, t_complex c)
+t_complex	add_cpx(t_complex z, t_complex c)
 {
 	t_complex	new;
 
-	new.Re = z.Re + c.Re;
-	new.Im = z.Im + c.Im;
+	new.re = z.re + c.re;
+	new.im = z.im + c.im;
 	return (new);
 }
-

@@ -6,7 +6,7 @@
 #    By: hbourgeo <hbourgeo@student.19.be>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/15 07:55:41 by hbourgeo          #+#    #+#              #
-#    Updated: 2022/05/11 15:51:25 by hbourgeo         ###   ########.fr        #
+#    Updated: 2022/05/13 00:02:12 by hbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,7 +88,7 @@ leak:
     			--verbose					\
     			--trace-children=yes		\
     			--log-file=valgrind-out.txt \
-    			./$(NAME)			\
+    			./$(NAME) $(VAR)	\
 
 # GIT
 MSG = ""

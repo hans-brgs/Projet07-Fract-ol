@@ -37,15 +37,15 @@ void	win_init(t_win *win)
 	win->h = H;
 	win->w = W;
 	win->zoom = 1;
-	win->moveX = 0;
-	win->moveY = 0;
+	win->move_x = 0;
+	win->move_y = 0;
 	win->x = 0;
 	win->y = 0;
 	win->select = 2;
 	win->curr_fract->it_max = 6;
 	win->mutate_julia = 1;
-	win->julia_cRe = -0.7;
-	win->julia_cIm = 0.27015;
+	win->julia_c_re = -0.7;
+	win->julia_c_im = 0.27015;
 	win->color = 1;
 	win->mlx = mlx_init();
 	win->ptr = mlx_new_window(win->mlx, win->w, win->h, "Fractal explorer");
@@ -64,12 +64,12 @@ void	img_init(t_win *win, t_img *img, int h, int w)
 
 void	julia_init(t_win *win)
 {
-	win->curr_fract->c.Re = win->julia_cRe;
-	win->curr_fract->c.Im = win->julia_cIm;
+	win->curr_fract->c.re = win->julia_c_re;
+	win->curr_fract->c.im = win->julia_c_im;
 }
 
 void	mandelbrot_init(t_win *win)
 {
-	win->curr_fract->Z1.Re = 0.0;
-	win->curr_fract->Z1.Im = 0.0;
+	win->curr_fract->z1.re = 0.0;
+	win->curr_fract->z1.im = 0.0;
 }

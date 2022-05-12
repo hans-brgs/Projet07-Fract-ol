@@ -12,54 +12,52 @@
 
 #include "fractol.h"
 
-int julia_computation(t_win *win, t_complex cplx)
+int	julia_computation(t_win *win, t_complex cplx)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	julia_init(win);
-	while (i < win->curr_fract->it_max + win->It_incr)
+	while (i < win->curr_fract->it_max + win->it_incr)
 	{
-		win->curr_fract->Z0 = add_cpx(sqr_cpx(cplx), win->curr_fract->c);
-		cplx =win->curr_fract->Z0;
-		if ((sqr(cplx.Re) + sqr(cplx.Im)) > 4)
-			break;
+		win->curr_fract->z0 = add_cpx(sqr_cpx(cplx), win->curr_fract->c);
+		cplx = win->curr_fract->z0;
+		if ((sqr(cplx.re) + sqr(cplx.im)) > 4)
+			break ;
 		i++;
 	}
 	return (i);
 }
 
-int mandelbrot_computation(t_win *win, t_complex cplx)
+int	mandelbrot_computation(t_win *win, t_complex cplx)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	mandelbrot_init(win);
-	while (i < win->curr_fract->it_max + win->It_incr)
+	while (i < win->curr_fract->it_max + win->it_incr)
 	{
-		win->curr_fract->Z0 = add_cpx(sqr_cpx(win->curr_fract->Z1), cplx);
-		win->curr_fract->Z1 =win->curr_fract->Z0;
-		if ((sqr(win->curr_fract->Z1.Re) + sqr(win->curr_fract->Z1.Im)) > 4)
-			break;
+		win->curr_fract->z0 = add_cpx(sqr_cpx(win->curr_fract->z1), cplx);
+		win->curr_fract->z1 = win->curr_fract->z0;
+		if ((sqr(win->curr_fract->z1.re) + sqr(win->curr_fract->z1.im)) > 4)
+			break ;
 		i++;
 	}
 	return (i);
 }
 
-int burningship_computation(t_win *win, t_complex cplx)
+int	burningship_computation(t_win *win, t_complex cplx)
 {
-	int i;
-	double squaredX;
-	double squaredY;
-	
+	int		i;
+
 	i = 0;
 	mandelbrot_init(win);
-	while (i < win->curr_fract->it_max + win->It_incr)
+	while (i < win->curr_fract->it_max + win->it_incr)
 	{	
-		win->curr_fract->Z0 = add_cpx(sqr_cpx_abs(win->curr_fract->Z1), cplx);
-		win->curr_fract->Z1 =win->curr_fract->Z0;
-		if ((sqr(win->curr_fract->Z1.Re) + sqr(win->curr_fract->Z1.Im)) > 4)
-			break;
+		win->curr_fract->z0 = add_cpx(sqr_cpx_abs(win->curr_fract->z1), cplx);
+		win->curr_fract->z1 = win->curr_fract->z0;
+		if ((sqr(win->curr_fract->z1.re) + sqr(win->curr_fract->z1.im)) > 4)
+			break ;
 		i++;
 	}
 	return (i);
