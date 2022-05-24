@@ -152,15 +152,15 @@ void		free_str(t_win *win);
 #  define DOWN 125
 #  define LEFT 123
 #  define RIGHT 124
-#  define PLUS 24
-#  define MINUS 27
+#  define PLUS 69
+#  define MINUS 78
 #  define NUMPAD_1 83
 #  define NUMPAD_2 84
 #  define NUMPAD_3 85
-#  define CLEAR 71
+#  define CLEAR 51
 #  define ESCAPE 53
-#  define MUTATE 106
-#  define COLOR 38
+#  define MUTATE 38
+#  define COLOR 8
 # endif
 
 #endif
